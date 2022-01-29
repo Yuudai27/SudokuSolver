@@ -6,25 +6,27 @@ import javax.swing.JTextField;
 import javax.swing.JLabel;
 import javax.swing.JOptionPane;
 import javax.swing.JButton;
-import java.awt.event.ActionListener;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
+import java.io.Serial;
 import java.util.ArrayList;
-import java.awt.event.ActionEvent;
 import javax.swing.SwingConstants;
 
 /**
  * The Board class is a JFrame layout, which provides the GUI for the user
  * and some functions to read and write data.
+ *
  */
-public class Layout extends JFrame implements KeyListener {
+public class Layout extends JFrame implements KeyListener{
 
+    @Serial
     private static final long serialVersionUID = 1L;
-    private ArrayList<JTextField> textFieldArray = new ArrayList<>();
+    private final ArrayList<JTextField> textFieldArray = new ArrayList<>();
     private final JLabel timeLabel = new JLabel("Solved in: ");
     JLabel validateLabel = new JLabel("Not validated!");
     private boolean solveButton = false;
     private boolean clearButton = false;
+
 
     /**
      * Creates the layout with its contentPanels, buttons and text fields.
@@ -610,11 +612,7 @@ public class Layout extends JFrame implements KeyListener {
         contentPane.add(timeLabel);
 
         JButton btnNewButton = new JButton("Solve it!");
-        btnNewButton.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                solveButton = true;
-            }
-        });
+        btnNewButton.addActionListener(arg0 -> solveButton = true);
         btnNewButton.setBounds(180, 441, 89, 23);
         contentPane.add(btnNewButton);
 
@@ -623,26 +621,17 @@ public class Layout extends JFrame implements KeyListener {
         contentPane.add(btnNewButton_1);
 
         JButton btnNewButton_2 = new JButton("Validate");
-        btnNewButton_2.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                validateSudoku();
-            }
-        });
+        btnNewButton_2.addActionListener(arg0 -> validateSudoku());
         btnNewButton_2.setBounds(305, 441, 89, 23);
         contentPane.add(btnNewButton_2);
 
         validateLabel.setBounds(432, 416, 120, 14);
         contentPane.add(validateLabel);
-        btnNewButton_1.addActionListener(new ActionListener() {
-            public void actionPerformed(ActionEvent arg0) {
-                clearField();
-            }
-        });
-        for (int x = 0; x < 81; x++) {
+        btnNewButton_1.addActionListener(arg0 -> clearField());
+        for(int x = 0; x < 81; x++) {
             textFieldArray.get(x).addKeyListener(this);
         }
     }
-
     /**
      * The validateSudoku function checks if in every row, column and field is every number from 1 to 9 exactly one time contained.
      */
@@ -651,201 +640,147 @@ public class Layout extends JFrame implements KeyListener {
         boolean test = true;
         int[] numberCheck = new int[9];
         //checking all rows if every number is just one time contained
-        for (int w = 0; w < 3; w++) {
-            for (int x = 0; x < 3; x++) {
-                for (int y = 0; y < 3; y++) {
-                    for (int z = 0; z < 3; z++) {
+        for(int w = 0; w < 3; w++) {
+            for(int x = 0; x < 3; x++) {
+                for(int y = 0; y < 3; y++) {
+                    for(int z = 0; z < 3; z++) {
                         switch (textFieldArray.get(w * 9 + x + y * 27 + z * 3).getText()) {
-                            case "1":
-                                numberCheck[0]++;
-                                break;
-                            case "2":
-                                numberCheck[1]++;
-                                break;
-                            case "3":
-                                numberCheck[2]++;
-                                break;
-                            case "4":
-                                numberCheck[3]++;
-                                break;
-                            case "5":
-                                numberCheck[4]++;
-                                break;
-                            case "6":
-                                numberCheck[5]++;
-                                break;
-                            case "7":
-                                numberCheck[6]++;
-                                break;
-                            case "8":
-                                numberCheck[7]++;
-                                break;
-                            case "9":
-                                numberCheck[8]++;
-                                break;
-                            default:
-                                break;
+                            case "1" -> numberCheck[0]++;
+                            case "2" -> numberCheck[1]++;
+                            case "3" -> numberCheck[2]++;
+                            case "4" -> numberCheck[3]++;
+                            case "5" -> numberCheck[4]++;
+                            case "6" -> numberCheck[5]++;
+                            case "7" -> numberCheck[6]++;
+                            case "8" -> numberCheck[7]++;
+                            case "9" -> numberCheck[8]++;
+                            default -> {
+                            }
                         }
                     }
                 }
                 //check through array if all sums are exactly 1
-                for (int t = 0; t < 9; t++) {
-                    if (numberCheck[t] != 1) {
+                for(int t = 0; t < 9; t++) {
+                    if(numberCheck[t] != 1) {
                         test = false;
                         break;
                     }
                 }
                 //reset numberCheck
-                for (int t = 0; t < 9; t++) {
+                for(int t = 0; t < 9; t++) {
                     numberCheck[t] = 0;
                 }
-                if (!test) {
+                if(!test) {
                     break;
                 }
             }
-            if (!test) {
+            if(!test) {
                 validation = false;
                 break;
             }
         }
         //checking all columns if every number is just one time contained
-        for (int w = 0; w < 3; w++) {
-            for (int x = 0; x < 3; x++) {
-                for (int y = 0; y < 3; y++) {
-                    for (int z = 0; z < 3; z++) {
+        for(int w = 0; w < 3; w++) {
+            for(int x = 0; x < 3; x++) {
+                for(int y = 0; y < 3; y++) {
+                    for(int z = 0; z < 3; z++) {
                         switch (textFieldArray.get(w * 27 + x * 3 + y * 9 + z).getText()) {
-                            case "1":
-                                numberCheck[0]++;
-                                break;
-                            case "2":
-                                numberCheck[1]++;
-                                break;
-                            case "3":
-                                numberCheck[2]++;
-                                break;
-                            case "4":
-                                numberCheck[3]++;
-                                break;
-                            case "5":
-                                numberCheck[4]++;
-                                break;
-                            case "6":
-                                numberCheck[5]++;
-                                break;
-                            case "7":
-                                numberCheck[6]++;
-                                break;
-                            case "8":
-                                numberCheck[7]++;
-                                break;
-                            case "9":
-                                numberCheck[8]++;
-                                break;
-                            default:
-                                break;
+                            case "1" -> numberCheck[0]++;
+                            case "2" -> numberCheck[1]++;
+                            case "3" -> numberCheck[2]++;
+                            case "4" -> numberCheck[3]++;
+                            case "5" -> numberCheck[4]++;
+                            case "6" -> numberCheck[5]++;
+                            case "7" -> numberCheck[6]++;
+                            case "8" -> numberCheck[7]++;
+                            case "9" -> numberCheck[8]++;
+                            default -> {
+                            }
                         }
                     }
                 }
                 //check through array if all sums are exactly 1
-                for (int t = 0; t < 9; t++) {
-                    if (numberCheck[t] != 1) {
+                for(int t = 0; t < 9; t++) {
+                    if(numberCheck[t] != 1) {
                         test = false;
                         break;
                     }
                 }
                 //reset numberCheck
-                for (int t = 0; t < 9; t++) {
+                for(int t = 0; t < 9; t++) {
                     numberCheck[t] = 0;
                 }
-                if (!test) {
+                if(!test) {
                     break;
                 }
             }
-            if (!test) {
+            if(!test) {
                 validation = false;
                 break;
             }
         }
         //checking all fields if every number is just one time contained
-        for (int x = 0; x < 3; x++) {
-            for (int y = 0; y < 3; y++) {
-                for (int z = 0; z < 3; z++) {
+        for(int x = 0; x < 3; x++) {
+            for(int y = 0; y < 3; y++) {
+                for(int z = 0; z < 3; z++) {
                     switch (textFieldArray.get(x * 9 + y + z * 3).getText()) {
-                        case "1":
-                            numberCheck[0]++;
-                            break;
-                        case "2":
-                            numberCheck[1]++;
-                            break;
-                        case "3":
-                            numberCheck[2]++;
-                            break;
-                        case "4":
-                            numberCheck[3]++;
-                            break;
-                        case "5":
-                            numberCheck[4]++;
-                            break;
-                        case "6":
-                            numberCheck[5]++;
-                            break;
-                        case "7":
-                            numberCheck[6]++;
-                            break;
-                        case "8":
-                            numberCheck[7]++;
-                            break;
-                        case "9":
-                            numberCheck[8]++;
-                            break;
-                        default:
-                            break;
+                        case "1" -> numberCheck[0]++;
+                        case "2" -> numberCheck[1]++;
+                        case "3" -> numberCheck[2]++;
+                        case "4" -> numberCheck[3]++;
+                        case "5" -> numberCheck[4]++;
+                        case "6" -> numberCheck[5]++;
+                        case "7" -> numberCheck[6]++;
+                        case "8" -> numberCheck[7]++;
+                        case "9" -> numberCheck[8]++;
+                        default -> {
+                        }
                     }
                 }
             }
             //check through array if all sums are exactly 1
-            for (int t = 0; t < 9; t++) {
-                if (numberCheck[t] != 1) {
+            for(int t = 0; t < 9; t++) {
+                if(numberCheck[t] != 1) {
                     test = false;
                     break;
                 }
             }
             //reset numberCheck
-            for (int t = 0; t < 9; t++) {
+            for(int t = 0; t < 9; t++) {
                 numberCheck[t] = 0;
             }
-            if (!test) {
+            if(!test) {
                 validation = false;
                 break;
             }
         }
-        setValidateText(validation ? "Valid!" : "Invalid!");
+        if(!validation) {
+            setValidateText("Invalid!");
+        }
+        else {
+            setValidateText("Valid!");
+        }
     }
-
     /**
      * The setValidateText function sets the text of the validateLabel.
-     *
      * @param state Takes a string value and sets it as text for the validateLabel.
      */
     private void setValidateText(String state) {
         validateLabel.setText(state);
     }
-
     /**
-     * The setTime function sets the given time in milliseconds into the text field.
-     *
-     * @param milliseconds Takes the number of milliseconds, which have to be written into the text field.
+     * The setTime function sets the given time in seconds into the text field.
+     * @param milliseconds Takes the number of seconds, which have to be written into the text field.
      */
     protected void setTime(long milliseconds) {
-        timeLabel.setText("Solved in: " + milliseconds + " ms");
+        timeLabel.setText("Solved in: "+ milliseconds +" ms");
     }
-
     /**
      * The clearField function clears the sudoku board completely.
      * The boolean will be set to false, that the solving process can be started again.
      */
     protected void clearField() {
-        for (int x = 0; x < 81; x++) {
+        for(int x = 0; x < 81; x++) {
             textFieldArray.get(x).setText("");
             textFieldArray.get(x).setForeground(Color.BLACK);
         }
@@ -853,16 +788,13 @@ public class Layout extends JFrame implements KeyListener {
         setTime(0);
         setValidateText("Not validated!");
     }
-
     /**
      * The clearState function returns the state of the clear button as boolean.
-     *
      * @return The value of the boolean clearButton will be returned.
      */
     protected boolean clearState() {
         return clearButton;
     }
-
     /**
      * The setClearState function sets the clearButton value to true,
      * that the board is waiting after solving until the button gets
@@ -871,60 +803,54 @@ public class Layout extends JFrame implements KeyListener {
     protected void setClearState() {
         clearButton = true;
     }
-
     /**
      * The startSolving functions provides the state if the solve-button is pressed or not.
-     *
      * @return A boolean gets returned if called and provides true, if the button got pressed.
      */
     protected boolean startSolving() {
         return solveButton;
     }
-
     /**
      * The resetSolving function sets the solveButton variable to false.
      */
     protected void resetSolving() {
         solveButton = false;
     }
-
     /**
      * The writeInput functions writes the given number into the given field, with the given row and column.
-     *
-     * @param field  Takes the number of the field, which has to be written in.
-     * @param row    Takes the number of the row, which has to be written in.
+     * @param field Takes the number of the field, which has to be written in.
+     * @param row	Takes the number of the row, which has to be written in.
      * @param column Takes the number of the column, which has to be written in.
      * @param number Takes the number, which is looked for.
      */
-    protected void writeInput(int field, int row, int column, int number) {
-        int index = field * 9 + row + column * 3;
-        textFieldArray.get(index).setText(Integer.toString(number));
-        textFieldArray.get(index).setForeground(Color.RED);
+    protected void writeInput(int field, int row, int column, int number){
+        textFieldArray.get(field*9+row+column*3).setText(Integer.toString(number));
+        textFieldArray.get(field*9+row+column*3).setForeground(Color.RED);
     }
-
     /**
      * The readInput function takes in the written numbers of the sudoku field
      * and holds it in a result array.
      * Empty fields will be saved with a zero.
-     *
      * @return A result integer array will be returned holding the field number,
      * the row and the column number.
      */
-    protected int[][][] readInput() {
+    protected int[][][] readInput(){
         int[][][] result = new int[9][3][3];
-        String checker;
-        for (int x = 0; x < 9; x++) {
-            for (int y = 0; y < 3; y++) {
-                for (int z = 0; z < 3; z++) {
-                    if (!textFieldArray.get(x * 9 + y + z * 3).getText().isEmpty()) {
-                        checker = textFieldArray.get(x * 9 + y + z * 3).getText();
-                        if (checker.equals("1") || checker.equals("2") || checker.equals("3") || checker.equals("4") || checker.equals("5") || checker.equals("6") || checker.equals("7") || checker.equals("8") || checker.equals("9")) {
+        String checker = "";
+        for(int x = 0; x < 9; x++) {
+            for(int y = 0; y < 3; y++) {
+                for(int z = 0; z < 3; z++) {
+                    if(!textFieldArray.get(x*9+y+z*3).getText().isEmpty()) {
+                        checker = textFieldArray.get(x*9+y+z*3).getText();
+                        if(checker.equals("1") || checker.equals("2") || checker.equals("3") || checker.equals("4") || checker.equals("5") || checker.equals("6") || checker.equals("7") || checker.equals("8") || checker.equals("9")) {
                             result[x][y][z] = Integer.parseInt(checker);
-                        } else {
+                        }
+                        else {
                             JOptionPane.showMessageDialog(null, "You didn't input a number from 1 to 9!", "Input error", JOptionPane.INFORMATION_MESSAGE);
                             result[x][y][z] = 11;
                         }
-                    } else {
+                    }
+                    else {
                         result[x][y][z] = 0;
                     }
                 }
@@ -932,114 +858,114 @@ public class Layout extends JFrame implements KeyListener {
         }
         return result;
     }
-
     /**
      * The calcCoordinates takes the index number and split it into fieldRow, fieldColumn, row and column.
-     *
      * @param index Takes the index number.
      * @return Returns an integer array with fieldRow, fieldColumn, row and column.
      */
     private int[] calcCoordinates(int index) {
         int[] result = new int[4];
-        result[0] = (index / 9) % 3;
-        result[1] = (index / 9) / 3;
-        int subIndex = index - result[0] * 9 - result[1] * 27;
-        result[2] = subIndex % 3;
-        result[3] = subIndex / 3;
+        result[0] = (index/9)%3;
+        result[1] = (index/9)/3;
+        int innerIndex = index-result[0]*9-result[1]*27;
+        result[2] = innerIndex%3;
+        result[3] = innerIndex/3;
         return result;
     }
-
     /**
      * Overriding the keyPressed function of the KeyListenerInterface.
      */
     @Override
     public void keyPressed(KeyEvent e) {
         int key = e.getKeyCode();
-        int[] coordinates;
+        int[] coordinates = {0, 0, 0, 0};
         if (key == KeyEvent.VK_LEFT) {
             int index = 0;
-            for (int x = 0; x < 81; x++) {
-                if (textFieldArray.get(x) == this.getFocusOwner()) {
-                    index = x;
+            for(int x = 0; x < 81; x++) {
+                if(textFieldArray.get(x) == this.getFocusOwner()) {
+                    index  = x;
                     break;
                 }
             }
             coordinates = calcCoordinates(index);
-            if (coordinates[3] != 0) {
+            if(coordinates[3] != 0) {
                 coordinates[3]--;
-            } else if (coordinates[1] != 0) {
+            }
+            else if(coordinates[1] != 0) {
                 coordinates[1]--;
                 coordinates[3] = 2;
             }
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).setRequestFocusEnabled(true);
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).requestFocusInWindow();
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).setRequestFocusEnabled(true);
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).requestFocusInWindow();
         }
 
         if (key == KeyEvent.VK_RIGHT) {
             int index = 0;
-            for (int x = 0; x < 81; x++) {
-                if (textFieldArray.get(x) == this.getFocusOwner()) {
-                    index = x;
+            for(int x = 0; x < 81; x++) {
+                if(textFieldArray.get(x) == this.getFocusOwner()) {
+                    index  = x;
                     break;
                 }
             }
             coordinates = calcCoordinates(index);
-            if (coordinates[3] != 2) {
+            if(coordinates[3] != 2) {
                 coordinates[3]++;
-            } else if (coordinates[1] != 2) {
+            }
+            else if(coordinates[1] != 2) {
                 coordinates[1]++;
                 coordinates[3] = 0;
             }
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).setRequestFocusEnabled(true);
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).requestFocusInWindow();
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).setRequestFocusEnabled(true);
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).requestFocusInWindow();
         }
 
         if (key == KeyEvent.VK_UP) {
             int index = 0;
-            for (int x = 0; x < 81; x++) {
-                if (textFieldArray.get(x) == this.getFocusOwner()) {
-                    index = x;
+            for(int x = 0; x < 81; x++) {
+                if(textFieldArray.get(x) == this.getFocusOwner()) {
+                    index  = x;
                     break;
                 }
             }
             coordinates = calcCoordinates(index);
-            if (coordinates[2] != 0) {
+            if(coordinates[2] != 0) {
                 coordinates[2]--;
-            } else if (coordinates[0] != 0) {
+            }
+            else if(coordinates[0] != 0) {
                 coordinates[0]--;
                 coordinates[2] = 2;
             }
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).setRequestFocusEnabled(true);
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).requestFocusInWindow();
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).setRequestFocusEnabled(true);
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).requestFocusInWindow();
         }
 
         if (key == KeyEvent.VK_DOWN) {
             int index = 0;
-            for (int x = 0; x < 81; x++) {
-                if (textFieldArray.get(x) == this.getFocusOwner()) {
-                    index = x;
+            for(int x = 0; x < 81; x++) {
+                if(textFieldArray.get(x) == this.getFocusOwner()) {
+                    index  = x;
                     break;
                 }
             }
             coordinates = calcCoordinates(index);
-            if (coordinates[2] != 2) {
+            if(coordinates[2] != 2) {
                 coordinates[2]++;
-            } else if (coordinates[0] != 2) {
+            }
+            else if(coordinates[0] != 2) {
                 coordinates[0]++;
                 coordinates[2] = 0;
             }
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).setRequestFocusEnabled(true);
-            textFieldArray.get(coordinates[0] * 9 + coordinates[1] * 27 + coordinates[2] + coordinates[3] * 3).requestFocusInWindow();
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).setRequestFocusEnabled(true);
+            textFieldArray.get(coordinates[0]*9+coordinates[1]*27+coordinates[2]+coordinates[3]*3).requestFocusInWindow();
         }
-    }
 
+    }
     /**
      * Overriding the keyReleased function of the KeyListenerInterface.
      */
     @Override
     public void keyReleased(KeyEvent e) {
     }
-
     /**
      * Overriding the keyTyped function of the KeyListenerInterface.
      */
